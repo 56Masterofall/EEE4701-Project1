@@ -1,4 +1,4 @@
-"""Synchronous FIFO Verification Testbench with Layered Architecture."""
+"""Synchronous FIFO Verification Testbench with Layered Architecture and CRV."""
 
 import os
 os.environ["COCOTB_RESOLVE_X"] = "ZEROS"
@@ -11,10 +11,12 @@ from cocotb.triggers import FallingEdge
 from tb.driver import FifoDriver, FifoTxn, WIDTH, MASK
 from tb.monitor import FifoMonitor
 from tb.scoreboard import FifoScoreboard, DEPTH
+from crv.fifo_item import FifoSeqItem
+from crv.coverage import sample_fifo_coverage, report_fifo_coverage
 
 
 class FifoEnv:
-    """Top-level verification environment connecting driver, monitor, and scoreboard."""
+    """Top-level verification environment connecting driver, monitor, scoreboard, and coverage."""
 
     def __init__(self, dut):
         self.dut = dut
@@ -26,77 +28,70 @@ class FifoEnv:
         await self.driver.reset()
         self.scoreboard.reset()
 
-    async def step(self, wr_en: int, rd_en: int, wr_data: int = 0):
-        txn = FifoTxn(wr_en=wr_en, rd_en=rd_en, wr_data=wr_data)
-        # Drive on falling edge
+    async def step(self, txn: FifoTxn):
+        # 1. Sample state on falling edge (at stimulus time) for input x state coverage
+        pre_sample = self.monitor.sample_now()
+        sample_fifo_coverage(txn, pre_sample)
+
+        # 2. Drive transaction on falling clock edge
         await self.driver.cycle(txn)
-        # Sample after rising edge
-        sample = await self.monitor.sample()
-        # Verify against reference oracle
-        self.scoreboard.check(txn, sample)
-        # Return to falling edge for next cycle
+
+        # 3. Wait for rising edge + 1ns to sample post-clock result
+        post_sample = await self.monitor.sample()
+
+        # 4. Scoreboard checks DUT output against reference model
+        self.scoreboard.check(txn, post_sample)
+
+        # 5. Advance to next falling edge
         await FallingEdge(self.dut.clk)
 
 
 @cocotb.test()
-async def test_fifo_corners_and_random(dut):
-    """Execute directed corner tests followed by seeded random stress testing."""
+async def test_fifo_directed_and_crv(dut):
+    """Run comprehensive state-command sweeps followed by pyvsc constrained-random stimulus."""
     cocotb.start_soon(Clock(dut.clk, 10, units="ns").start())
     env = FifoEnv(dut)
     await env.reset()
 
-    # 1. Empty boundary: read-while-empty (over-read)
-    for _ in range(3):
-        await env.step(wr_en=0, rd_en=1, wr_data=0)
+    # 1. Sweep all 4 commands at every possible FIFO occupancy (0 through DEPTH)
+    for target_count in range(DEPTH + 1):
+        for wr in [0, 1]:
+            for rd in [0, 1]:
+                await env.reset()
+                for i in range(target_count):
+                    await env.step(FifoTxn(wr_en=1, rd_en=0, wr_data=0x10 + i))
+                await env.step(FifoTxn(wr_en=wr, rd_en=rd, wr_data=0x99))
 
-    # 2. Fill to full: write DEPTH items
-    for i in range(DEPTH):
-        await env.step(wr_en=1, rd_en=0, wr_data=(0x10 + i))
-
-    # 3. Full boundary: write-while-full (over-write drop test)
-    for i in range(3):
-        await env.step(wr_en=1, rd_en=0, wr_data=(0xAA + i))
-
-    # 4. Drain to empty
-    for _ in range(DEPTH):
-        await env.step(wr_en=0, rd_en=1, wr_data=0)
-
-    # 5. Over-read again after drain
-    for _ in range(2):
-        await env.step(wr_en=0, rd_en=1, wr_data=0)
-
-    # 6. Simultaneous read and write (at empty, partial, and full)
-    # At empty: simultaneous read and write (write happens, read ignored)
-    await env.step(wr_en=1, rd_en=1, wr_data=0x55)
-
-    # Fill partially to 4 items
-    for i in range(3):
-        await env.step(wr_en=1, rd_en=0, wr_data=(0x20 + i))
-
-    # Simultaneous read and write when partial (count stays constant)
-    for i in range(5):
-        await env.step(wr_en=1, rd_en=1, wr_data=(0x30 + i))
-
-    # Fill to full
-    while env.scoreboard.model.count < DEPTH:
-        await env.step(wr_en=1, rd_en=0, wr_data=0x77)
-
-    # Simultaneous read and write when full (read happens, write dropped in RTL gating)
-    for i in range(3):
-        await env.step(wr_en=1, rd_en=1, wr_data=(0x80 + i))
-
-    # 7. Pointer wrap-around test: push/pop past 2 * DEPTH
+    # 2. Multi-cycle boundary stress: empty boundary
     await env.reset()
-    for i in range(DEPTH * 3):
-        await env.step(wr_en=1, rd_en=0, wr_data=(i & MASK))
-        await env.step(wr_en=0, rd_en=1, wr_data=0)
+    for wr in [0, 1]:
+        for rd in [0, 1]:
+            for _ in range(3):
+                await env.step(FifoTxn(wr_en=wr, rd_en=rd, wr_data=0xAA))
 
-    # 8. Seeded pseudo-random interleave test (multi-hundred cycles)
+    # 3. Multi-cycle boundary stress: full boundary
+    for wr in [0, 1]:
+        for rd in [0, 1]:
+            await env.reset()
+            for i in range(DEPTH):
+                await env.step(FifoTxn(wr_en=1, rd_en=0, wr_data=0x30 + i))
+            for _ in range(3):
+                await env.step(FifoTxn(wr_en=wr, rd_en=rd, wr_data=0xEE))
+
+    # 4. Burst fill and drain stress cycles
     await env.reset()
-    rng = random.Random(42)
+    for _ in range(5):
+        for i in range(DEPTH + 2):
+            await env.step(FifoTxn(wr_en=1, rd_en=0, wr_data=i & MASK))
+        for _ in range(DEPTH + 2):
+            await env.step(FifoTxn(wr_en=0, rd_en=1, wr_data=0))
 
-    for _ in range(1000):
-        wr = rng.choice([0, 1])
-        rd = rng.choice([0, 1])
-        data = rng.randint(0, MASK)
-        await env.step(wr_en=wr, rd_en=rd, wr_data=data)
+    # 5. Constrained-random stimulus with pyvsc
+    await env.reset()
+    item = FifoSeqItem()
+    for _ in range(2000):
+        item.randomize()
+        await env.step(item.to_txn())
+
+    # Report coverage metrics
+    report_fifo_coverage()
