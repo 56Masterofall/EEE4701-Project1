@@ -1,0 +1,134 @@
+top:
+  cover_percentage: 100.0
+  coverage: 68
+  size: 68
+  type: <class 'cocotb_coverage.coverage.CoverItem'>
+top.fifo:
+  cover_percentage: 100.0
+  coverage: 68
+  size: 68
+  type: <class 'cocotb_coverage.coverage.CoverItem'>
+top.fifo.count:
+  at_least: 1
+  bins:_hits:
+    empty: 257
+    full_8: 143
+    low_1: 358
+    low_2: 309
+    mid_3: 273
+    mid_4: 294
+    mid_5: 213
+    mid_6: 222
+    near_full_7: 267
+  cover_percentage: 100.0
+  coverage: 9
+  size: 9
+  type: <class 'cocotb_coverage.coverage.CoverPoint'>
+  weight: 1
+top.fifo.cross_cmd:
+  at_least: 1
+  bins:_hits:
+    (0, 0): 503
+    (0, 1): 583
+    (1, 0): 730
+    (1, 1): 520
+  cover_percentage: 100.0
+  coverage: 4
+  size: 4
+  type: <class 'cocotb_coverage.coverage.CoverCross'>
+  weight: 1
+top.fifo.cross_cmd_x_count:
+  at_least: 1
+  bins:_hits:
+    ((0, 0), 'empty'): 50
+    ((0, 0), 'full_8'): 28
+    ((0, 0), 'low_1'): 72
+    ((0, 0), 'low_2'): 76
+    ((0, 0), 'mid_3'): 45
+    ((0, 0), 'mid_4'): 83
+    ((0, 0), 'mid_5'): 42
+    ((0, 0), 'mid_6'): 44
+    ((0, 0), 'near_full_7'): 63
+    ((0, 1), 'empty'): 69
+    ((0, 1), 'full_8'): 35
+    ((0, 1), 'low_1'): 99
+    ((0, 1), 'low_2'): 76
+    ((0, 1), 'mid_3'): 69
+    ((0, 1), 'mid_4'): 64
+    ((0, 1), 'mid_5'): 62
+    ((0, 1), 'mid_6'): 48
+    ((0, 1), 'near_full_7'): 61
+    ((1, 0), 'empty'): 92
+    ((1, 0), 'full_8'): 42
+    ((1, 0), 'low_1'): 110
+    ((1, 0), 'low_2'): 99
+    ((1, 0), 'mid_3'): 89
+    ((1, 0), 'mid_4'): 83
+    ((1, 0), 'mid_5'): 64
+    ((1, 0), 'mid_6'): 73
+    ((1, 0), 'near_full_7'): 78
+    ((1, 1), 'empty'): 46
+    ((1, 1), 'full_8'): 38
+    ((1, 1), 'low_1'): 77
+    ((1, 1), 'low_2'): 58
+    ((1, 1), 'mid_3'): 70
+    ((1, 1), 'mid_4'): 64
+    ((1, 1), 'mid_5'): 45
+    ((1, 1), 'mid_6'): 57
+    ((1, 1), 'near_full_7'): 65
+  cover_percentage: 100.0
+  coverage: 36
+  size: 36
+  type: <class 'cocotb_coverage.coverage.CoverCross'>
+  weight: 1
+top.fifo.cross_flags_x_cmd:
+  at_least: 1
+  bins:_hits:
+    ('empty_asserted', (0, 0)): 50
+    ('empty_asserted', (0, 1)): 69
+    ('empty_asserted', (1, 0)): 92
+    ('empty_asserted', (1, 1)): 46
+    ('full_asserted', (0, 0)): 28
+    ('full_asserted', (0, 1)): 35
+    ('full_asserted', (1, 0)): 42
+    ('full_asserted', (1, 1)): 38
+    ('neither', (0, 0)): 425
+    ('neither', (0, 1)): 479
+    ('neither', (1, 0)): 596
+    ('neither', (1, 1)): 436
+  cover_percentage: 100.0
+  coverage: 12
+  size: 12
+  type: <class 'cocotb_coverage.coverage.CoverCross'>
+  weight: 1
+top.fifo.flags:
+  at_least: 1
+  bins:_hits:
+    empty_asserted: 257
+    full_asserted: 143
+    neither: 1936
+  cover_percentage: 100.0
+  coverage: 3
+  size: 3
+  type: <class 'cocotb_coverage.coverage.CoverPoint'>
+  weight: 1
+top.fifo.rd_en:
+  at_least: 1
+  bins:_hits:
+    0: 1233
+    1: 1103
+  cover_percentage: 100.0
+  coverage: 2
+  size: 2
+  type: <class 'cocotb_coverage.coverage.CoverPoint'>
+  weight: 1
+top.fifo.wr_en:
+  at_least: 1
+  bins:_hits:
+    0: 1086
+    1: 1250
+  cover_percentage: 100.0
+  coverage: 2
+  size: 2
+  type: <class 'cocotb_coverage.coverage.CoverPoint'>
+  weight: 1
