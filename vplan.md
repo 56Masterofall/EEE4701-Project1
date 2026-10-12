@@ -100,6 +100,6 @@ State the numbers *before* you start, so closure is a measurement and not a
 negotiation.
 
 - Functional coverage target: **_100_%** of the model in section 3
-- Mutation target: **_9_/_10_** or **≥90** on the hidden pool
+- Mutation target: **_8_/_8_** or **≥90** on the hidden pool
 - Assertions: every property paired with a passing `cover` (no vacuous passes)
 - What I will report as **not verified**: Asynchronous clock domain crossings (DUT is strictly synchronous), non-FWFT modes, and post-synthesis gate-level timing corners.
