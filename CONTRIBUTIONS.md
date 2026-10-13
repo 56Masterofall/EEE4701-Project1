@@ -1,8 +1,4 @@
-# Contributions — <team name> · <track>
-
-<!-- Capstone, Milestones 1-4. Lives in your team repo root as CONTRIBUTIONS.md.
-     ONE file per team, updated at every milestone — not written at the end.
-     Delete every comment block before you submit. -->
+# Contributions — N/A · CpE
 
 > This file and the git history are cross-checked against each other, and
 > against every member's confidential peer eval. Where the three disagree, the
@@ -10,74 +6,30 @@
 > them agree. A file written the night of M4 will not survive that check, and
 > the way it fails is by being vague.
 
-**Members:** <name (NID) · name (NID) · …>
-**Repo:** <URL>
-**Track:** RV32I core / AXI-Lite subsystem / secure_gate
-**Last updated:** <date> · **through milestone:** M__
+**Members:** Dave Deonarain (tu340511)
+**Repo:** ~/EEE4701/craft-vv-student
+**Track:** FIFO CRV & Functional Coverage (Project 1)
+**Last updated:** October 12, 2026 · **through milestone:** M1 (Project 1)
 
 ---
 
 ## How to read this file
 
-Each milestone section lists what each member owned, with the commits, files, or
-tags that show it. "Helped with the testbench" is not a contribution record.
-"Wrote the constrained-random sequence and its coverage bins — `tb/seq_rw.py`,
-commits `a1b2c3d`..`e4f5g6h`" is.
-
-Work that is genuinely shared gets its own row and says how it was shared
-(pairing, review, a split you can describe). Do not inflate, and do not
-flatten real differences into a polite fiction — an honest record of an uneven
-milestone reads far better than a uniform one nobody believes.
+This record reflects solo work on the synchronous FIFO verification suite. All deliverables, code commits, functional coverage closure, and mutation testing analysis were completed individually.
 
 ---
 
-## M1 — <due Wk 11>
+## Project 1 — Simulation Seam (Synchronous FIFO)
 
 | Member | What they owned | Evidence (commits / files / PRs) | Approx. share |
 |--------|-----------------|----------------------------------|--------------:|
-|        |                 |                                  |               |
-|        |                 |                                  |               |
+| Dave Deonarain | Layered testbench architecture (Driver, Monitor, Scoreboard), CRV item generation, functional coverage model, boundary sweeps, and mutation kill sign-off | `code/tb/fifo/tb/`, `code/tb/fifo/crv/`, `code/tb/fifo/test_fifo.py`, `vplan.md`, `FINDINGS.md`, `ai_log.md` | 100% |
 
 **Shared or paired work:**
+None (solo project).
 
 **What slipped, and who picked it up:**
-
-<!-- Every team has a milestone where something slipped. Saying so here, at the
-     time, is what makes the rest of the file credible. -->
-
-## M2 — <due Wk 12>
-
-| Member | What they owned | Evidence (commits / files / PRs) | Approx. share |
-|--------|-----------------|----------------------------------|--------------:|
-|        |                 |                                  |               |
-
-**Shared or paired work:**
-
-**What slipped, and who picked it up:**
-
-**Changes to the division of labor since M1, and why:**
-
-## M3 — <due Wk 13>
-
-| Member | What they owned | Evidence (commits / files / PRs) | Approx. share |
-|--------|-----------------|----------------------------------|--------------:|
-|        |                 |                                  |               |
-
-**Shared or paired work:**
-
-**What slipped, and who picked it up:**
-
-**Changes to the division of labor since M2, and why:**
-
-## M4 — <due Wk 14, at the `m4` tag>
-
-| Member | What they owned | Evidence (commits / files / PRs) | Approx. share |
-|--------|-----------------|----------------------------------|--------------:|
-|        |                 |                                  |               |
-
-**Shared or paired work:**
-
-**What slipped, and who picked it up:**
+Initial uniform random stimulus failed to reach corner cases at FIFO full/empty boundaries (plateauing at 62.5% coverage) and crashed on an invalid `coverage_db.summary` property call. Added `monitor.sample_now()` on falling clock edges alongside directed sweeps across all occupancy depths to resolve scoreboard desynchronization and close 100% of the coverage bins.
 
 ---
 
@@ -88,14 +40,13 @@ first, so it must be consistent with the four sections above.
 
 | Member | Principal contributions (all four milestones) | Overall share |
 |--------|-----------------------------------------------|--------------:|
-|        |                                               |               |
-|        |                                               |               |
+| Dave Deonarain | End-to-end FIFO verification: testbench architecture, CRV with pyvsc, cocotb-coverage closure (68/68 bins), and 100% mutation testing kill rate (8/8 mutants) | 100% |
 
 **The three things this team did that we would each defend in an interview:**
 
-1.
-2.
-3.
+1. Designed a layered verification environment separating cycle-accurate pin driving from transaction monitoring and scoreboard checking against an algorithmic FIFO reference model.
+2. Structured constrained-random sequences with `pyvsc` and directed boundary sweeps to achieve 100.0% functional coverage closure (68/68 bins) across all state-command crosses.
+3. Validated verification quality through mutation testing using `craft_mutate`, killing 8/8 mutants (100.0%) by detecting flag off-by-one errors, underflow/overflow leaks, and pointer wrapping faults.
 
 ## Non-code contributions
 
@@ -104,7 +55,9 @@ artifact where one exists.
 
 | Member | Contribution | Where it shows |
 |--------|--------------|----------------|
-|        | spec archaeology / vplan authorship / debugging sessions / demo prep / review | |
+| Dave Deonarain | Verification plan authoring | `vplan.md` |
+| Dave Deonarain | Mutation survivor and kill root cause analysis | `FINDINGS.md` |
+| Dave Deonarain | LLM interaction audit and predictive evaluation | `ai_log.md` |
 
 ## AI assistance
 
@@ -114,19 +67,16 @@ person, always.
 
 | Where | Used for | Verified by | Where the verification shows |
 |-------|----------|-------------|------------------------------|
-|       |          |             |                              |
+| `crv/fifo_item.py` | Initial boilerplate for `pyvsc` constrained-random transaction class | Dave Deonarain | Caught and corrected syntax error (`rand_uint_t` -> `rand_bit_t`); tested via standalone CLI run documented in `ai_log.md` |
+| `crv/coverage.py` | Drafting `cocotb-coverage` coverpoint and cross structures | Dave Deonarain | Identified missing range bin resolution, fixed crash on `coverage_db.summary`, and added falling-edge pre-sampling to capture correct pre-state command crosses; documented in `ai_log.md` |
 
 ---
 
 ## Attestation
 
-- [ ] Every claim above can be traced to the repo history.
-- [ ] This file was updated at each milestone, not reconstructed at the end.
-- [ ] Every member has read this file and agrees it is accurate.
-- [ ] Each member has separately submitted their **confidential individual peer
+- [x] Every claim above can be traced to the repo history.
+- [x] This file was updated at each milestone, not reconstructed at the end.
+- [x] Every member has read this file and agrees it is accurate.
+- [x] Each member has separately submitted their **confidential individual peer
       eval** — teammates' main contributions, an equity judgment, one sentence
       of evidence each — outside this repo, by the M4 deadline.
-
-<!-- The peer eval is individual and confidential. It does NOT go in the repo,
-     and it is not this file. A missing eval is a professionalism problem of
-     its own, independent of how good the project is. -->
