@@ -11,15 +11,15 @@ top.fifo:
 top.fifo.count:
   at_least: 1
   bins:_hits:
-    empty: 257
-    full_8: 143
-    low_1: 358
-    low_2: 309
-    mid_3: 273
-    mid_4: 294
-    mid_5: 213
-    mid_6: 222
-    near_full_7: 267
+    empty: 159
+    full_8: 157
+    low_1: 262
+    low_2: 234
+    mid_3: 288
+    mid_4: 312
+    mid_5: 328
+    mid_6: 313
+    near_full_7: 283
   cover_percentage: 100.0
   coverage: 9
   size: 9
@@ -28,10 +28,10 @@ top.fifo.count:
 top.fifo.cross_cmd:
   at_least: 1
   bins:_hits:
-    (0, 0): 503
-    (0, 1): 583
-    (1, 0): 730
-    (1, 1): 520
+    (0, 0): 540
+    (0, 1): 560
+    (1, 0): 756
+    (1, 1): 480
   cover_percentage: 100.0
   coverage: 4
   size: 4
@@ -40,42 +40,42 @@ top.fifo.cross_cmd:
 top.fifo.cross_cmd_x_count:
   at_least: 1
   bins:_hits:
-    ((0, 0), 'empty'): 50
-    ((0, 0), 'full_8'): 28
-    ((0, 0), 'low_1'): 72
-    ((0, 0), 'low_2'): 76
-    ((0, 0), 'mid_3'): 45
-    ((0, 0), 'mid_4'): 83
-    ((0, 0), 'mid_5'): 42
-    ((0, 0), 'mid_6'): 44
-    ((0, 0), 'near_full_7'): 63
-    ((0, 1), 'empty'): 69
-    ((0, 1), 'full_8'): 35
-    ((0, 1), 'low_1'): 99
-    ((0, 1), 'low_2'): 76
-    ((0, 1), 'mid_3'): 69
-    ((0, 1), 'mid_4'): 64
-    ((0, 1), 'mid_5'): 62
-    ((0, 1), 'mid_6'): 48
-    ((0, 1), 'near_full_7'): 61
-    ((1, 0), 'empty'): 92
-    ((1, 0), 'full_8'): 42
-    ((1, 0), 'low_1'): 110
-    ((1, 0), 'low_2'): 99
-    ((1, 0), 'mid_3'): 89
-    ((1, 0), 'mid_4'): 83
-    ((1, 0), 'mid_5'): 64
-    ((1, 0), 'mid_6'): 73
-    ((1, 0), 'near_full_7'): 78
-    ((1, 1), 'empty'): 46
-    ((1, 1), 'full_8'): 38
-    ((1, 1), 'low_1'): 77
-    ((1, 1), 'low_2'): 58
-    ((1, 1), 'mid_3'): 70
-    ((1, 1), 'mid_4'): 64
-    ((1, 1), 'mid_5'): 45
-    ((1, 1), 'mid_6'): 57
-    ((1, 1), 'near_full_7'): 65
+    ((0, 0), 'empty'): 25
+    ((0, 0), 'full_8'): 41
+    ((0, 0), 'low_1'): 57
+    ((0, 0), 'low_2'): 46
+    ((0, 0), 'mid_3'): 71
+    ((0, 0), 'mid_4'): 77
+    ((0, 0), 'mid_5'): 74
+    ((0, 0), 'mid_6'): 78
+    ((0, 0), 'near_full_7'): 71
+    ((0, 1), 'empty'): 35
+    ((0, 1), 'full_8'): 40
+    ((0, 1), 'low_1'): 60
+    ((0, 1), 'low_2'): 56
+    ((0, 1), 'mid_3'): 53
+    ((0, 1), 'mid_4'): 71
+    ((0, 1), 'mid_5'): 81
+    ((0, 1), 'mid_6'): 85
+    ((0, 1), 'near_full_7'): 79
+    ((1, 0), 'empty'): 76
+    ((1, 0), 'full_8'): 51
+    ((1, 0), 'low_1'): 90
+    ((1, 0), 'low_2'): 83
+    ((1, 0), 'mid_3'): 95
+    ((1, 0), 'mid_4'): 101
+    ((1, 0), 'mid_5'): 100
+    ((1, 0), 'mid_6'): 90
+    ((1, 0), 'near_full_7'): 70
+    ((1, 1), 'empty'): 23
+    ((1, 1), 'full_8'): 25
+    ((1, 1), 'low_1'): 55
+    ((1, 1), 'low_2'): 49
+    ((1, 1), 'mid_3'): 69
+    ((1, 1), 'mid_4'): 63
+    ((1, 1), 'mid_5'): 73
+    ((1, 1), 'mid_6'): 60
+    ((1, 1), 'near_full_7'): 63
   cover_percentage: 100.0
   coverage: 36
   size: 36
@@ -84,18 +84,18 @@ top.fifo.cross_cmd_x_count:
 top.fifo.cross_flags_x_cmd:
   at_least: 1
   bins:_hits:
-    ('empty_asserted', (0, 0)): 50
-    ('empty_asserted', (0, 1)): 69
-    ('empty_asserted', (1, 0)): 92
-    ('empty_asserted', (1, 1)): 46
-    ('full_asserted', (0, 0)): 28
-    ('full_asserted', (0, 1)): 35
-    ('full_asserted', (1, 0)): 42
-    ('full_asserted', (1, 1)): 38
-    ('neither', (0, 0)): 425
-    ('neither', (0, 1)): 479
-    ('neither', (1, 0)): 596
-    ('neither', (1, 1)): 436
+    ('empty_asserted', (0, 0)): 25
+    ('empty_asserted', (0, 1)): 35
+    ('empty_asserted', (1, 0)): 76
+    ('empty_asserted', (1, 1)): 23
+    ('full_asserted', (0, 0)): 41
+    ('full_asserted', (0, 1)): 40
+    ('full_asserted', (1, 0)): 51
+    ('full_asserted', (1, 1)): 25
+    ('neither', (0, 0)): 474
+    ('neither', (0, 1)): 485
+    ('neither', (1, 0)): 629
+    ('neither', (1, 1)): 432
   cover_percentage: 100.0
   coverage: 12
   size: 12
@@ -104,9 +104,9 @@ top.fifo.cross_flags_x_cmd:
 top.fifo.flags:
   at_least: 1
   bins:_hits:
-    empty_asserted: 257
-    full_asserted: 143
-    neither: 1936
+    empty_asserted: 159
+    full_asserted: 157
+    neither: 2020
   cover_percentage: 100.0
   coverage: 3
   size: 3
@@ -115,8 +115,8 @@ top.fifo.flags:
 top.fifo.rd_en:
   at_least: 1
   bins:_hits:
-    0: 1233
-    1: 1103
+    0: 1296
+    1: 1040
   cover_percentage: 100.0
   coverage: 2
   size: 2
@@ -125,8 +125,8 @@ top.fifo.rd_en:
 top.fifo.wr_en:
   at_least: 1
   bins:_hits:
-    0: 1086
-    1: 1250
+    0: 1100
+    1: 1236
   cover_percentage: 100.0
   coverage: 2
   size: 2
